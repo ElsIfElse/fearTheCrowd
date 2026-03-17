@@ -9,7 +9,6 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] AnxietyHandlerData _anxietyHandlerData;
 
 
-
     void Start()
     {
         InitializeManager();
@@ -37,7 +36,7 @@ public class PlayerManager : MonoBehaviour
     void OnDrawGizmos()
     {
         if (_anxietyHandlerData.AnxietyDetectionData.PlayerObj == null) return;
-    
+
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(
             _anxietyHandlerData.AnxietyDetectionData.PlayerObj.transform.position,
