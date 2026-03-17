@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    PlayerMovementHandler _playerMovementHandler;
+    [SerializeField] PlayerMovementHandlerData _playerMovementHandlerData;
+
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _playerMovementHandler = new();
+        _playerMovementHandlerData.PlayerCamera = CameraManager.Instance.PlayerCameraHandlerData.PlayerCamera;
+        _playerMovementHandler.Initialize(_playerMovementHandlerData);
     }
 }
