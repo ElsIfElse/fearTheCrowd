@@ -14,6 +14,11 @@ public class CameraManager : MonoBehaviour
     public PlayerCameraHandler PlayerCameraHandler;
     public PlayerCameraHandlerData PlayerCameraHandlerData;
 
+    void Start()
+    {
+        InitializeManager();
+    }
+
     public void InitializeManager()
     {
         CreateSubhandlers();
@@ -29,4 +34,6 @@ public class CameraManager : MonoBehaviour
     {
         PlayerCameraHandler.Initialize(PlayerCameraHandlerData);
     }
+
+    public void SetPlayerObjToCameraToFollow(GameObject playerObj) => PlayerCameraHandler.SetCameraTarget(playerObj);
 }

@@ -1,5 +1,7 @@
 using System;
 using Unity.Cinemachine;
+using UnityEngine;
+using UnityEngine.SocialPlatforms.GameCenter;
 
 public class PlayerCameraHandler
 {
@@ -11,9 +13,9 @@ public class PlayerCameraHandler
         _playerCamera = data.PlayerCamera;
     }
 
-    public void SetCameraRotationSpeed(float rotationSpeed)
+    public void SetCameraTarget(GameObject playerObj)
     {
-        
+        _playerCamera.Target.TrackingTarget = playerObj.transform;
     }
 }
 

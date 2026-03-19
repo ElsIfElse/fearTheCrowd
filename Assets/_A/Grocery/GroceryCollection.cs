@@ -2,17 +2,15 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroceryItemList
+public class GroceryCollection
 {
-    public Dictionary<GroceryItemType,GroceryItem> GorceryDictionary = new();
+    public Dictionary<GroceryItemType,GroceryItem> GroceryDictionary = new();
     public List<GroceryItem> GroceryItems = new();
     public List<GroceryItem> UsedItems = new();
 
-    public void InitializeGroceryItemList(GroceryItemListData data)
+    public void Initialize(GroceryCollectionData data)
     {
         CreateObjectsFromData(data.GroceryItems);
-
-        Debug.Log($"GroceryItemList is initialized. Grocery List count: [{GroceryItems.Count}]");
     }
 
     /// <summary>
@@ -28,13 +26,6 @@ public class GroceryItemList
         Debug.Log($"Created random grocery item in factory [{item.GroceryItemName}]");
         return item;
     }
-
-    /// <summary>
-    /// Returns the concrete grocery item of the type
-    /// </summary>
-    /// <param name="type"></param>
-    /// <returns>Grocery Item</returns>
-    public GroceryItem GetGroceryItem(GroceryItemType type) => GorceryDictionary[type];
 
     public void ResetItems()
     {
@@ -53,13 +44,13 @@ public class GroceryItemList
         {
             GroceryItem groceryItem = new(itemData);
             GroceryItems.Add(groceryItem);
-            GorceryDictionary.Add(groceryItem.GroceryItemType,groceryItem);
+            GroceryDictionary.Add(groceryItem.GroceryItemType,groceryItem);
         }
     }
 }
 
 [Serializable]
-public struct GroceryItemListData
+public struct GroceryCollectionData
 {
     public GroceryItemList_SO GroceryItems;
 }

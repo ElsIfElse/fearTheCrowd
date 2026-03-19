@@ -19,8 +19,6 @@ public class NpcState_GoToRandomLocation : NpcState
     {
         targetLocation = hit.position;
     }
-
-        Debug.Log($"Target location: {targetLocation}");
         _npcAgent.SetDestination(targetLocation);
 
         yield return null;

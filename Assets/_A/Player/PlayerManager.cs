@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -17,23 +18,21 @@ public class PlayerManager : MonoBehaviour
     AnxietyHandler _anxietyHandler;
     [SerializeField] AnxietyHandlerData _anxietyHandlerData;
 
+    public PlayerGroceryInventoryManager PlayerGroceryInventoryManager;
+    public PlayerGroceryInventoryManagerData PlayerGroceryInventoryManagerData;
 
-    void Start()
-    {
-        // Cursor.lockState = CursorLockMode.Locked;
-        // Cursor.visible = false;
-        InitializeManager();
-    }
 
-    void InitializeManager()
+    public void InitializeManager(GameObject playerObj)
     {
-        Initialize_PlayerMovementHandler();
+        Initialize_PlayerMovementHandler(playerObj);
         Initialize_AnxietyHandler();
+        InitializePlayerGroceryInventoryManager();
     }
 
-    void Initialize_PlayerMovementHandler()
+    void Initialize_PlayerMovementHandler(GameObject playerObj)
     {
         _playerMovementHandler = new();
+        _playerMovementHandlerData.Controller = playerObj.GetComponent<CharacterController>();
         _playerMovementHandlerData.PlayerCamera = CameraManager.Instance.PlayerCameraHandlerData.PlayerCamera;
         _playerMovementHandler.Initialize(_playerMovementHandlerData);
     }
@@ -42,6 +41,12 @@ public class PlayerManager : MonoBehaviour
         _anxietyHandler = new();
         _anxietyHandlerData.AnxietyDetectionData.PlayerObj = _playerMovementHandlerData.Controller.gameObject;
         _anxietyHandler.InitializeHandler(_anxietyHandlerData);
+    }
+
+    void InitializePlayerGroceryInventoryManager()
+    {
+        PlayerGroceryInventoryManager = new();
+        PlayerGroceryInventoryManager.InitializeManager(PlayerGroceryInventoryManagerData);
     }
 
     void OnDrawGizmos()
@@ -65,6 +70,6 @@ public class PlayerManager : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.Label(new Rect(0, 50, 100, 30), $"IsBumperOn: [{_anxietyHandler.AnxietyDetection._isBumperActive}]");
+        // GUI.Label(new Rect(0, 50, 100, 30), $"IsBumperOn: [{_anxietyHandler.AnxietyDetection._isBumperActive}]");
     }
 }

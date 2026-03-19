@@ -7,7 +7,7 @@ public class GroceryItemFactory : MonoBehaviour
 {
     public Dictionary<GroceryItemType, GroceryItem> GroceryItems = new();
     public GameObject _groceryTaskItemPrefab;
-    GroceryItemList _groceryItemList;
+    GroceryCollection _groceryItemList;
 
     void CreateFactoryList(Dictionary<GroceryItemType, GroceryItem> groceryItems)
     {
@@ -16,13 +16,13 @@ public class GroceryItemFactory : MonoBehaviour
     public void InitializeFactory(GroceryItemFactoryData data)
     {
         _groceryItemList = data.GroceryItemList;
-        CreateFactoryList(_groceryItemList.GorceryDictionary);
+        CreateFactoryList(_groceryItemList.GroceryDictionary);
     }
-    public GameObject GetNewGroceryItem(GroceryItemType groceryItemType)
+    public GameObject GetNewGroceryTaskItem(GroceryItemType groceryItemType)
     {
         GameObject newItem = Instantiate(_groceryTaskItemPrefab);
         GroceryTaskItem taskItem = newItem.GetComponent<GroceryTaskItem>();
-        taskItem.SetGroceryTaskItemImage(GroceryItems[groceryItemType]);
+        taskItem.SetTaskItemFields(GroceryItems[groceryItemType]);
         return newItem;
     }
 }
@@ -30,6 +30,6 @@ public class GroceryItemFactory : MonoBehaviour
 [Serializable]
 public struct GroceryItemFactoryData
 {
-    [HideInInspector] public GroceryItemList GroceryItemList;
+    [HideInInspector] public GroceryCollection GroceryItemList;
     public GameObject GroceryTaskItemPrefab;
 }

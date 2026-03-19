@@ -12,58 +12,58 @@ public class GroceryItemManager : MonoBehaviour
     }
     #endregion
 
+    GroceryTaskController _groceryTaskController; 
+    GroceryCollection _groceryCollection;
+
     public GroceryItemFactory GroceryItemFactory;
 
-    public GroceryItemListData GroceryItemListData;
+    [Header("Initialization Data")]
     public GroceryItemFactoryData GroceryItemFactoryData;
-    public GroceryTaskHandlerModelData GroceryTaskHandlerModelData;
-    public GroceryTaskHandlerViewData GroceryTaskHandlerViewData;
-
-
-    GroceryItemList _groceryItemList;
-    public GroceryTaskHandlerModel GroceryTaskHandlerModel;
-    GroceryTaskHandlerView _groceryTaskHandlerView;
+    public GroceryTaskControllerData GroceryTaskControllerData;
+    public GroceryCollectionData GroceryCollectionData;
 
     void Start()
     {
         InitializeManager();
     }
 
-    void InitializeManager()
+    public void InitializeManager()
     {
         CreateSubHandlers();
-        InitializeSubHandlers();
+        InitializeSubhandlers();
+    }
+
+    public void CreateNewGroceryTaskList(int amountOfTasks)
+    {
+        List<GroceryTaskItem> groceryTaskItems = new();
+        for(int i = 0; i < amountOfTasks; i++)
+        {
+            GroceryItem item = _groceryCollection.GetRandomGroceryItem();
+            GroceryTaskItem taskItem = GroceryItemFactory.GetNewGroceryTaskItem(item.GroceryItemType).GetComponent<GroceryTaskItem>(); 
+            _groceryTaskController.AddItemToTasks(taskItem);
+            groceryTaskItems.Add(taskItem);
+        }
+
+        GrocerySellerManager.Instance.ActivateSellers(groceryTaskItems);
+    }
+    public void MoveItemFromTaskListToPlayerInventory(GroceryItemType type)
+    {
+        GroceryTaskItem item = _groceryTaskController.FindItemByGroceryType(type);
+        _groceryTaskController.RemoveItemFromTasks(item);
+        PlayerManager.Instance.PlayerGroceryInventoryManager.AddGroceryTaskItemToPlayerInventory(item);
     }
 
     void CreateSubHandlers()
     {
-        _groceryItemList = new();
-        GroceryTaskHandlerModel = new();
-        _groceryTaskHandlerView = new();
+        _groceryTaskController = new();
+        _groceryCollection = new();
     }
-
-    void InitializeSubHandlers()
+    void InitializeSubhandlers()
     {
+        _groceryTaskController.InitializeController(GroceryTaskControllerData);
+        _groceryCollection.Initialize(GroceryCollectionData);
 
-        GroceryTaskHandlerModelData.GroceryItemList = _groceryItemList;
-        GroceryTaskHandlerModelData.GroceryTaskHandlerView = _groceryTaskHandlerView;
-
-        GroceryTaskHandlerViewData.GroceryItemFactory = GroceryItemFactory;
-        GroceryItemFactoryData.GroceryItemList = _groceryItemList;
-
-        GroceryTaskHandlerViewData.GroceryItemFactory = GroceryItemFactory;
-        
-        _groceryItemList.InitializeGroceryItemList(GroceryItemListData);
+        GroceryItemFactoryData.GroceryItemList = _groceryCollection;
         GroceryItemFactory.InitializeFactory(GroceryItemFactoryData);
-        GroceryTaskHandlerModel.InitializeHandler(GroceryTaskHandlerModelData);
-        _groceryTaskHandlerView.InitializeHandler(GroceryTaskHandlerViewData);
-    }
-
-    void OnGUI()
-    {
-        if(GUI.Button(new Rect(0,0,100,30),"Create Item"))
-        {
-            GroceryTaskHandlerModel.CreateTaskItems(2);
-        }
     }
 }

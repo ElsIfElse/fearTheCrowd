@@ -10,7 +10,7 @@ public class GrocerySellerController : MonoBehaviour
     void Start()
     {
         GrocerySellerManager.Instance.RegisterGrocerySeller(this);
-        ActivateGrocerySeller();
+        // ActivateGrocerySeller();
     }
 
     void OnDestroy()
@@ -20,10 +20,14 @@ public class GrocerySellerController : MonoBehaviour
 
     public void ActivateGrocerySeller()
     {
+        Debug.Log($"Activate GrocerySeller: [{GroceryItemType}]");
         _isActive = true;
+        gameObject.transform.localScale = Vector3.one * 3;
     }
     public void DeActivateGrocerySeller()
     {
+        Debug.Log($"Deactivate GrocerySeller: [{GroceryItemType}]");
+        gameObject.transform.localScale = Vector3.one;
         _isActive = false;
     }
 
@@ -31,7 +35,6 @@ public class GrocerySellerController : MonoBehaviour
     {
         if(_isPlayerInDetectionRange && _isActive)
         {
-            Debug.Log("IsPlayerInDetectionRange");
             if(InputManager.Instance.IsInteractionWithSellerPressed()) OnComplete();
         }
     }
@@ -39,7 +42,7 @@ public class GrocerySellerController : MonoBehaviour
     void OnComplete()
     {
         DeActivateGrocerySeller();
-        GroceryItemManager.Instance.GroceryTaskHandlerModel.DeactivateItem(GroceryItemType);
+        GroceryItemManager.Instance.MoveItemFromTaskListToPlayerInventory(GroceryItemType);
     }
 
     void OnTriggerEnter(Collider other)

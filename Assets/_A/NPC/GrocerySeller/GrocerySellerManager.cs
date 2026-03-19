@@ -27,23 +27,19 @@ public class GrocerySellerManager : MonoBehaviour
         }
     }
 
-    public void ActivateSellers()
+    public void ActivateSellers(List<GroceryTaskItem> groceryTaskItems)
     {
+        foreach(GrocerySellerController seller in GrocerySellers) seller.DeActivateGrocerySeller();
         List<GrocerySellerController> sellersToActivate = new();
-        List<GrocerySellerController> sellersToDeactivate = new();
 
-        foreach(GroceryItem groceryItem in GroceryItemManager.Instance.GroceryTaskHandlerModel.CurrentTaskItems)
+        foreach(GroceryTaskItem item in groceryTaskItems)
         {
-            foreach(GrocerySellerController seller in  GrocerySellers)
+            foreach(GrocerySellerController seller in GrocerySellers)
             {
-                if(seller.GroceryItemType == groceryItem.GroceryItemType) sellersToActivate.Add(seller);
-                else sellersToDeactivate.Add(seller);
+                if(seller.GroceryItemType == item._groceryItem.GroceryItemType) sellersToActivate.Add(seller);
             }
         }
 
         foreach(GrocerySellerController seller in sellersToActivate) seller.ActivateGrocerySeller();
-        foreach(GrocerySellerController seller in sellersToDeactivate) seller.DeActivateGrocerySeller();
-
-
     }
 }
