@@ -4,8 +4,8 @@ public class AnxietyHandler
 {
     AnxietyHandlerData _data;
 
-    AnxietyDetection _anxietyDetection;
-    AnxietyModel _anxietyModel;
+    public AnxietyDetection AnxietyDetection;
+    public AnxietyModel AnxietyModel;
     AnxietyMeterView _anxietyMeterView;
     public void InitializeHandler(AnxietyHandlerData data)
     {
@@ -17,20 +17,20 @@ public class AnxietyHandler
     }
     void CreateSubHandlers()
     {
-        _anxietyDetection = new AnxietyDetection();
-        _anxietyModel = new AnxietyModel();
+        AnxietyDetection = new AnxietyDetection();
+        AnxietyModel = new AnxietyModel();
         _anxietyMeterView = new AnxietyMeterView();
     }
     void InitializeSubhandlers()
     {
-        _anxietyDetection.Initialize(_data.AnxietyDetectionData);
-        _anxietyModel.Initialize(_data.AnxietyModelData);
+        AnxietyDetection.Initialize(_data.AnxietyDetectionData);
+        AnxietyModel.Initialize(_data.AnxietyModelData);
         _anxietyMeterView.Initialize(_data.AnxietyMeterViewData);
     }
 
     void PrepareDataStructs()
     {
-        _data.AnxietyModelData.AnxietyDetection = _anxietyDetection;
+        _data.AnxietyModelData.AnxietyDetection = AnxietyDetection;
         _data.AnxietyModelData.AnxietyMeterView = _anxietyMeterView;
     }
 }

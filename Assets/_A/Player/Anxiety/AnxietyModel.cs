@@ -33,6 +33,16 @@ public class AnxietyModel : ITickable
         UpdateAnxietyMeter();
     }
 
+    public void AddAnxiety_Amount(float amount)
+    {
+        _currentAnxiety = Mathf.Clamp(
+            _currentAnxiety + amount,
+            0, _maxAnxiety
+        );
+        
+        UpdateAnxietyMeter();
+    }
+
 
     public void RemoveAnxiety()
     {

@@ -4,7 +4,7 @@ public class NpcState_WalkToSeller : NpcState
 {
     public override void InitializeState(NpcStateData data)
     {
-        
+        base.InitializeState(data);
     }
 
     public override IEnumerator OnEnter()

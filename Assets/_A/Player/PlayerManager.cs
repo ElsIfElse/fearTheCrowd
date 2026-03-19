@@ -2,6 +2,15 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    #region Singleton
+    public static PlayerManager Instance;
+    private void Awake()
+    {
+        if(Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
+    #endregion
+
     PlayerMovementHandler _playerMovementHandler;
     [SerializeField] PlayerMovementHandlerData _playerMovementHandlerData;
 
@@ -11,6 +20,8 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
+        // Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.visible = false;
         InitializeManager();
     }
 
@@ -42,5 +53,18 @@ public class PlayerManager : MonoBehaviour
             _anxietyHandlerData.AnxietyDetectionData.PlayerObj.transform.position,
             _anxietyHandlerData.AnxietyDetectionData.DetectionRadius
         );
+    }
+
+    public void BumperDetection(Collider other)
+    {
+        if(_anxietyHandler.AnxietyDetection.TryBump(other))
+        {
+            _anxietyHandler.AnxietyModel.AddAnxiety_Amount(_anxietyHandlerData.AnxietyDetectionData.BumpAnxietyGain);
+        }
+    }
+
+    void OnGUI()
+    {
+        GUI.Label(new Rect(0, 50, 100, 30), $"IsBumperOn: [{_anxietyHandler.AnxietyDetection._isBumperActive}]");
     }
 }

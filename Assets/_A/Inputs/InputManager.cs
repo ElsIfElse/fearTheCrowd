@@ -21,13 +21,19 @@ public class InputManager : MonoBehaviour
             return _playerMovement.ReadValue<Vector2>();
         }
     }
-
+    
+    InputAction _interactWithSeller;
+    public bool IsInteractionWithSellerPressed()
+    {
+        return _interactWithSeller.WasPressedThisFrame();
+    } 
     void Start()
     {
-        InitializeActions();
+        InitializeAction_PlayerMovement();
+        InitializeAction_InteractWithSeller();
     }
 
-    void InitializeActions()
+    void InitializeAction_PlayerMovement()
     {
         _playerMovement = new InputAction("PlayerMovement", InputActionType.Value);
         _playerMovement.AddCompositeBinding("2DVector")
@@ -41,5 +47,12 @@ public class InputManager : MonoBehaviour
             .With("Right", "<Keyboard>/rightArrow");
 
         _playerMovement.Enable();
+    }
+
+    void InitializeAction_InteractWithSeller()
+    {
+        _interactWithSeller = new InputAction("InteractWithSeller", InputActionType.Button);
+        _interactWithSeller.AddBinding("<Keyboard>/e");
+        _interactWithSeller.Enable();
     }
 }
